@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import Route from './route.js';
+import './shared/styles/index.scss';
+import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Route />
   </React.StrictMode>,
   document.getElementById('root')
 );
