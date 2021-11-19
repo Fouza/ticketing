@@ -33,33 +33,6 @@ export function* LOGIN_USER({payload}) {
     yield put(requestLoading(userActions.SET_STATE,false))
 }
 
-export function* SIGNUP_USER({payload}){
-	if(!payload.condition) return sentence.condition
-	yield put(requestLoading(userActions.SET_STATE,true))
-	let {firstname, lastname, day, month, year} = yield select(state => state.users)
-	let email = payload.email
-	let password = payload.password
-	let dateBirth = createDate(day,month, year)
-	const response = yield call(requestService.postRequest,
-		`${API_URL}/account/signup`,
-		{
-			firstName:firstname,
-			lastName:lastname,
-			email:email,
-			password:password,
-			subscribed_newsletter:payload.newsletter,
-			dateBirth:dateBirth
-		},
-		{protect : null,authUser : null,typeContent : null}
-	)
-	if(!response.error){
-		//yield put(succes({isLogged: true},userActions.SET_STATE))
-		//setCookie("tokenCookie",response.data.data.token) 
-	}
-	else yield put(failure({error : response.data.message},userActions.SET_STATE))
-    yield put(requestLoading(userActions.SET_STATE,false))
-}
-
 export function* LOGOUT_USER(){
 	yield put(requestLoading(userActions.SET_STATE,true,"logout"))
 	let email = JSON.parse(localStorage.getItem('email'))
@@ -79,9 +52,29 @@ export function* LOGOUT_USER(){
 	
 }
 
+export function* CREATE_USER({payload}) {
+	console.log("create user")
+	yield put(requestLoading(userActions.SET_STATE,true,"create-user"))
+	
+    const response = yield call(requestService.postRequest,
+		`${API_URL}/api/create-agent`,
+		payload,
+		{protect : true,authUser : cookie.get('tokenCookie'),typeContent : null}
+		)
+				
+    if(!response.error) {
+        yield put(succes({createUser:true},userActions.SET_STATE))
+    }
+    else {
+		yield put(failure({error : "Erreur, réessayer !"},userActions.SET_STATE))
+	}
+    yield put(requestLoading(userActions.SET_STATE,false))
+}
+
 export default function* rootSaga() {
     yield all([
 		takeLatest(userActions.LOGIN_USER, LOGIN_USER),
-		takeLatest(userActions.LOGOUT_USER, LOGOUT_USER)
+		takeLatest(userActions.LOGOUT_USER, LOGOUT_USER),
+		takeLatest(userActions.CREATE_USER, CREATE_USER)
     ])
 }

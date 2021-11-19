@@ -12,7 +12,10 @@ const initialState = {
 	successPris:false,
 	successTerminer:false,
 	idTerminer:0,
-	errorAction:''
+	errorAction:'',
+
+	//pagination
+	pageTicket:1,
 }
 
 export default function ticketsReducers(state = initialState, action) {

@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { Modal, Button, Input } from "antd"
-import UploadInput from '../UploadInput/UploadInput'
+import UploadInput from '../Upload/UploadInput'
 
 
 function Terminer({ticket, handleOnChange, file, notes, isTerminerModalVisible, handleTerminerOk, handleCancel}){

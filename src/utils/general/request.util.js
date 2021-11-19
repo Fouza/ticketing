@@ -22,7 +22,6 @@ function createHeader(protect,authUser,typeContent = null){
 	// headers['Accept'] = "application/json"
 	// headers['credentials'] = "same-origin"
     if( protect ) headers['Authorization'] = `Bearer ${authUser}`
-	console.log(headers)
     return headers
 }
 
@@ -41,14 +40,12 @@ function returnResponse (response,error){
         }
         obj={error : true,...err}
     }
-    console.log(obj)
     return obj
 }
 
 async function getRequest(urlroot,
                           header = {protect : false,authUser : null,typeContent : null}) {
     const Header = createHeader(header.protect, header.authUser, header.typeContent)
-    console.log(header)
     const {response ,error}  = await axios.get(`${urlroot}`, {headers: Header})
         .then(response => ({response}))
         .catch(error => ({error}))

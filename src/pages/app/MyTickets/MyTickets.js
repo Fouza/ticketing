@@ -171,7 +171,7 @@ function MyTickets(){
 
 	useEffect(() => {
 		if(successTerminer){
-			toast.success(`Ticket ${idTerminer} effectué !`)
+			toast.success(`Ticket effectué !`)
 			dispatch(dispatchAction(ticketActions.SET_STATE, {successTerminer:false}))
 		}
 	},[successTerminer])	

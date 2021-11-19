@@ -11,6 +11,7 @@ const initialState = {
 	remebered:false,
     loading: false,
 	loadingPart:'',
+	createUser:false,
     error:null,
 	logout:false,
 	targetError:[]

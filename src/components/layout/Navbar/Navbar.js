@@ -15,7 +15,7 @@ function Navbar({showModal, open, user}){
 	const drawerButton = () => {
 		return (
 			<div className="drawer_button mediumOnly aic">
-				<IconButton className="icon_button" variant="contained" onClick={() => open()}>
+				<IconButton className="icon_button" variant="contained" onClick={open}>
 					<FontAwesomeIcon icon={faBars} color={"white"} />
 				</IconButton>
 			</div>

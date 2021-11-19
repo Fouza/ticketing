@@ -17,7 +17,6 @@ function TextNavLink({action, text, className, textClassName,to, icon, iconSize,
 	}
 	useEffect(() => {
 		if(logout){
-			console.log('logout')
 			if(JSON.parse(localStorage.getItem('isLogged')) && !isLogged) localStorage.removeItem('isLogged')
 			history.replace(history.location.pathname)
 		}

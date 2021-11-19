@@ -12,18 +12,27 @@ import isEqual from 'lodash.isequal';
 import { toast } from 'react-toastify';
 
 
-function Tickets({user}){
+function Tickets(){
+	const user = JSON.parse(localStorage.getItem('user'))
 
 	const { loading, loadingPart} = useSelector(state => state.users)
-	const { secondLoad, error, errorAction } = useSelector(state => state.tickets)
+	const { successPris, secondLoad, error, errorAction, pageTickets } = useSelector(state => state.tickets)
 	const {tickets} = useSelector(state => state.tickets)
 
 	const [data, setData] = useState([])
 	const [ticket, setTicket] = useState({})
+	// const [id, setId] = useState()
 
 	const [isDetailModalVisible, setIsDetailModalVisible] = useState(false)
 
 	const dispatch = useDispatch()
+
+	useEffect(() => {
+		if(successPris){
+			toast.success(`Ce ticket est à vous`)
+			dispatch(dispatchAction(ticketActions.SET_STATE, {successPris:false}))
+		}
+	},[successPris])
 
 	useEffect(() => {
 		if(error && error.length > 0 && errorAction==='assign-ticket'){
@@ -73,7 +82,6 @@ function Tickets({user}){
 			setData(getData())
 		}
 	},[tickets])
-
 	const handlePrendre = id => {
 		dispatch(dispatchAction(ticketActions.ASSIGN_TICKET, {id:id}))
 	}
@@ -155,7 +163,9 @@ function Tickets({user}){
 	]
 
 	const onChange = (pagination, filters, sorter, extra) => {
-		console.log('params', pagination, filters, sorter, extra);
+		console.log('params', pagination, filters, sorter, "extra", extra);
+		// dispatch(dispatchAction(ticketActions.SET_STATE, {pageTickets:pagination.current}))
+		// setData(extra.currentDataSource)
 	}
 
 	const handleRefresh = () => {
@@ -192,9 +202,9 @@ function Tickets({user}){
 
 
 			<Table columns={columns} 
-				dataSource={data} 
+				dataSource={data}
 				onChange={onChange} 
-				pagination={{ pageSize: 5 }} 
+				pagination={{ pageSize: 5}} 
 				scroll={{ x: 1000 }} />
 		</div>
 	)

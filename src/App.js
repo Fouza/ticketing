@@ -16,15 +16,8 @@ function App() {
 
 	const dispatch = useDispatch()
 
-	const [opened,open] = useState(false)
 
-	const closeDrawer = () => {
-		open(false)
-	}
-
-	const openDrawer = () => {
-		open(true)
-	}
+	
 
 	// useEffect(() => {
 	// 	const isAuth = isAuthenticated()
@@ -36,8 +29,7 @@ function App() {
 	// },[]);
 	return (	
 		<React.Fragment>
-			<Layout user={user} open={openDrawer} />
-			<Drawer onClose={closeDrawer} opened={opened}/>
+			<Layout user={user}  />
 		</React.Fragment>
 	);
 }

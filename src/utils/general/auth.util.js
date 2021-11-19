@@ -88,7 +88,7 @@ export const signout = () => {
 };
 
 export const updateUser = (data, next) => {
-    console.log('UPDATE USER IN LOCALSTORAGE HELPERS', data);
+    // console.log('UPDATE USER IN LOCALSTORAGE HELPERS', data);
     if (typeof window !== undefined) {
         let auth = JSON.parse(localStorage.getItem('user'));
         auth = data.data;

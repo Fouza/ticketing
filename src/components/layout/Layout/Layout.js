@@ -20,8 +20,9 @@ import userActions from '../../../redux/user/actions';
 import { createBrowserHistory } from "history";
 import MyTickets from '../../../pages/app/MyTickets/MyTickets';
 import Messages from '../../../pages/app/Messages/Messages';
+import Drawer from '../Drawer/DrawerComponent';
 
-function Layout({ user, t, path, open}){
+function Layout({ user, t, path}){
 	const { isLogged, loading, loadingPart} = useSelector(state => state.users)
 	const { error } = useSelector(state => state.tickets)
 	const history = createBrowserHistory();
@@ -36,6 +37,7 @@ function Layout({ user, t, path, open}){
 	const [description, setDescription] = useState('')
 	const [notes, setNotes] = useState('')
 	const [deadline, setDeadline] = useState('')
+	const [opened,open] = useState(false)
 
 	const [height, setHeight] = useState(0)
 	const hasWindow = typeof window !== 'undefined';
@@ -160,7 +162,7 @@ function Layout({ user, t, path, open}){
 						<div className="profile flex fdc f3">
 							
 						</div>
-						<p className="flex fdc f9 title fs16 raleway-bold white"></p>
+						<p className="flex fdc f9 title fs16 raleway-bold white">Ticketing App</p>
 							
 					</div>
 					<div className="menu flex f2 fdr asfs">
@@ -187,7 +189,7 @@ function Layout({ user, t, path, open}){
 	}
 	
 	const ProtectedRoute = ({Component, redirectTo, path, key}) => {
-		if (isLoggedStorage) return <Route exact path={path} component={Component} key={key} user={user} ></Route>;
+		if (isLoggedStorage) return <Route exact path={path} component={Component} key={key} ></Route>;
 		else return <Redirect to={redirectTo}/>
 	};
 	
@@ -242,14 +244,21 @@ function Layout({ user, t, path, open}){
 			return ( <></>)
 		}
 	}
+	const closeDrawer = () => {
+		open(false)
+	}
 
-	
+	const openDrawer = () => {
+		open(true)
+	}
 	return(
 		<Router history={history}>
+			<Drawer onClose={closeDrawer} opened={opened}/>
+
 			<div className="flex fdc container" style={{ height:height }}>
 				<ToastContainer />	
 				{newTicketComponent()}
-				<Navbar showModal={showModal} open={open} user={user} />
+				<Navbar showModal={showModal} open={openDrawer} user={user} />
 				<div className="second_container flex fdr">
 					{sideBarLarge()}
 					<Switch>
@@ -267,7 +276,7 @@ function Layout({ user, t, path, open}){
 						}
 					</Switch>
 				</div>
-		</div>
+			</div>
 		</Router>
 	)
 }

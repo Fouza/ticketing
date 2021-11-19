@@ -11,8 +11,8 @@ const requestLoading =(constVal,isLoading,loadingPart) =>{
 const dispatchAction = (action,payload)=>{
     let obj = {type : action}
     if(payload) obj.payload = payload
-    console.log("dispatch action")
-    console.log(obj)
+    // console.log("dispatch action")
+    // console.log(obj)
     return obj
 }
 
