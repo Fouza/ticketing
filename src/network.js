@@ -1,2 +1,2 @@
-const API_URL = process.env.REACT_APP_URL;
+const API_URL = "http://ticketing.syartech.com";
 export {API_URL};
