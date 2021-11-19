@@ -36,6 +36,19 @@ export function* GET_MY_TICKETS() {
     yield put(requestLoading(ticketActions.SET_STATE,false))
 }
 
+export function* GET_MESSAGES() {
+    yield put(requestLoading(ticketActions.SET_STATE,true,',messqges'))
+    const response = yield call(requestService.getRequest,
+		`${API_URL}/api/my-messages`,
+		{protect : true, authUser : cookie.get('tokenCookie'), typeContent : null}
+	)
+    if(response) {
+        yield put(succes({messages: response.data.messages},ticketActions.SET_STATE))
+    }
+    else yield put(failure({error : response.data.message, errorAction:'my-messages'}, ticketActions.SET_STATE))
+    yield put(requestLoading(ticketActions.SET_STATE,false))
+}
+
 
 export function* CREATE_TICKET({payload}) {
     yield put(requestLoading(ticketActions.SET_STATE,true,'create-ticket'))
@@ -80,12 +93,42 @@ export function* ASSIGN_TICKET({payload}) {
     yield put(requestLoading(ticketActions.SET_STATE,false))
 }
 
+export function* FINISH_TICKET({payload}) {
+    yield put(requestLoading(ticketActions.SET_STATE,true,'finish-ticket'))
+
+	// let id = payload.id
+	// let fichier = payload.file
+	// let notes = payload.notes
+	let formData = new FormData()
+	formData.append('id_ticket', payload.id)
+	formData.append('fichier', payload.file)
+	formData.append('notes',payload.notes)
+    const response = yield call(requestService.postRequest,
+		`${API_URL}/api/finish-ticket`,
+		formData,
+		{protect : true, authUser : cookie.get('tokenCookie'), typeContent : 'multipart/form-data'},
+	)
+    if(!response.error) {
+		console.log(response.data.tickets)
+        yield put(succes({myTickets: response.data.tickets, idTerminer:response.data.id_ticket, secondLoad: false, successTerminer:true},ticketActions.SET_STATE))
+    }
+    else{
+		console.log(response.data.message)
+		yield put(failure({error : response.data.message, errorAction:'finish-ticket'}, ticketActions.SET_STATE))
+	}
+
+    yield put(requestLoading(ticketActions.SET_STATE,false))
+}
+
 
 export default function* rootSaga() {
     yield all([
 		takeEvery(ticketActions.GET_TICKETS, GET_TICKETS),
 		takeEvery(ticketActions.GET_MY_TICKETS, GET_MY_TICKETS),
 		takeLatest(ticketActions.CREATE_TICKET, CREATE_TICKET),
-		takeLatest(ticketActions.ASSIGN_TICKET, ASSIGN_TICKET)
+		takeLatest(ticketActions.ASSIGN_TICKET, ASSIGN_TICKET),
+		takeLatest(ticketActions.FINISH_TICKET, FINISH_TICKET),
+		takeLatest(ticketActions.GET_MESSAGES, GET_MESSAGES)
+
     ])
 }

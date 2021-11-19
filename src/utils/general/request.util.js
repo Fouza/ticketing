@@ -9,8 +9,20 @@ export const requestService = {
 
 function createHeader(protect,authUser,typeContent = null){
     let headers = {}
-    headers['Content-type'] = typeContent === null ? "application/json" : typeContent
+	headers['Access-Control-Allow-Credentials'] = "true"
+	// headers['Access-Control-Request-Headers'] = "X-Requested-With, Content-Type, X-Token-Auth, Authorization"
+   	// headers['Access-Control-Allow-Origin'] = "http://localhost:3000"
+	// headers['Access-Control-Allow-Methods'] = "*"
+	// headers['Access-Control-Request-Method'] = "POST"
+
+	headers['Accept'] = "application/json"
+	headers['Content-Type'] = typeContent === null ? "application/json" : typeContent
+	// headers['Accept'] = "application/json"
+	// headers['mode'] = "cors"
+	// headers['Accept'] = "application/json"
+	// headers['credentials'] = "same-origin"
     if( protect ) headers['Authorization'] = `Bearer ${authUser}`
+	console.log(headers)
     return headers
 }
 
@@ -45,7 +57,10 @@ async function getRequest(urlroot,
 
 async function postRequest(urlroot, data,
     header = {protect : null,authUser : null,typeContent : null}) {
-    const {response,error} = await axios.post(`${urlroot}`, data, {
+    const {response,error} = await axios.post(`${urlroot}`, data, 
+	{	
+		
+		withCredentials:true,
         headers: createHeader(header.protect, header.authUser, header.typeContent)
     })
         .then(response => ({response}))

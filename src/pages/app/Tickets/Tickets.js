@@ -12,9 +12,9 @@ import isEqual from 'lodash.isequal';
 import { toast } from 'react-toastify';
 
 
-function Tickets(){
+function Tickets({user}){
 
-	const {  loading, loadingPart} = useSelector(state => state.users)
+	const { loading, loadingPart} = useSelector(state => state.users)
 	const { secondLoad, error, errorAction } = useSelector(state => state.tickets)
 	const {tickets} = useSelector(state => state.tickets)
 
@@ -140,12 +140,14 @@ function Tickets(){
 		{
 			title:'Actions',
 			dataIndex:'actions',
-			width:'20%',
+			width:!!user && user.type == 'agent' ? '20%' : '10%',
 			render : (text, record, index) => {
 				return (
 					<>
 						<Button className="marr5" onClick={() => showDetailModal(record.id)}>Détails</Button>
-						<Button className="" onClick={() => handlePrendre(record.id)} >Prendre</Button>
+						{!!user && user.type ==='agent' &&
+							<Button className="" onClick={() => handlePrendre(record.id)}>Prendre</Button>
+						}
 					</>
 				)
 			}

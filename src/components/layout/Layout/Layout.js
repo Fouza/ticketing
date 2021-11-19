@@ -9,7 +9,7 @@ import ticketsActions from '../../../redux/tickets/actions';
 import TextNavLink from '../../commun/TextNavLink/TextNavLink.js';
 import { dispatchAction } from '../../../utils/general/dispatch.util';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUserCircle, faTachometerAlt, faClipboardList, faBars, faArrowLeft, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faUserCircle, faTachometerAlt, faClipboardList, faArrowLeft, faStickyNote } from '@fortawesome/free-solid-svg-icons'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';	
 import { Button, Modal, Input, DatePicker } from 'antd';
@@ -19,6 +19,8 @@ import Login from '../../AuthPages/Login/Login.js';
 import userActions from '../../../redux/user/actions';
 import { createBrowserHistory } from "history";
 import MyTickets from '../../../pages/app/MyTickets/MyTickets';
+import Messages from '../../../pages/app/Messages/Messages';
+
 function Layout({ user, t, path, open}){
 	const { isLogged, loading, loadingPart} = useSelector(state => state.users)
 	const { error } = useSelector(state => state.tickets)
@@ -133,6 +135,9 @@ function Layout({ user, t, path, open}){
 							{ !!user && user.type==='agent' &&
 								<TextNavLink icon={faUserCircle} iconSize={"xs"} text={"Mes Tickets"} to={"/mytickets"} textClassName="padh7" className={"link flex fdr aic padh5 padt10 raleway-medium first_grey txt_deco_none"}></TextNavLink>
 							}
+							{ !!user && user.type==='customer' &&
+								<TextNavLink icon={faStickyNote} iconSize={"xs"} text={"Messages"} to={"/messages"} textClassName="padh7" className={"link flex fdr aic padh5 padt10 raleway-medium first_grey txt_deco_none"}></TextNavLink>
+							}
 						</div>
 					</div>
 					<div className="logout flex f4 fdr asfs">
@@ -182,7 +187,7 @@ function Layout({ user, t, path, open}){
 	}
 	
 	const ProtectedRoute = ({Component, redirectTo, path, key}) => {
-		if (isLoggedStorage) return <Route exact path={path} component={Component} key={key} ></Route>;
+		if (isLoggedStorage) return <Route exact path={path} component={Component} key={key} user={user} ></Route>;
 		else return <Redirect to={redirectTo}/>
 	};
 	
@@ -256,6 +261,9 @@ function Layout({ user, t, path, open}){
 						<ProtectedRoute path={"/tickets"} Component={Tickets} redirectTo="/login" key="tickets"/>
 						{!!user && user.type==='agent' &&	
 							<ProtectedRoute path={"/mytickets"} Component={MyTickets} redirectTo="/login" key="mytickets"/>
+						}
+						{!!user && user.type==='customer' &&	
+							<ProtectedRoute path={"/messages"} Component={Messages} redirectTo="/login" key="mytickets"/>
 						}
 					</Switch>
 				</div>

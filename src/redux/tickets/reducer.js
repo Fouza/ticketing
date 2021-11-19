@@ -3,11 +3,15 @@ import ticketActions from './actions'
 const initialState = {
 	tickets:[],
 	myTickets:[],
+	messages:[],
     loading: false,
     error:null,
 	secondLoad:false,
 	secondLoadMyTicket:false,
+	secondLoadMessages:false,
 	successPris:false,
+	successTerminer:false,
+	idTerminer:0,
 	errorAction:''
 }
 

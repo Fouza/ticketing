@@ -4,21 +4,26 @@ import { useDispatch, useSelector } from 'react-redux'
 import { dispatchAction } from '../../../utils/general/dispatch.util'
 import ticketActions from '../../../redux/tickets/actions'
 import Detail from '../../../components/commun/Detail/Detail'
+import Terminer from '../../../components/commun/Terminer/Terminer'
 import { Table, Tag, Button } from 'antd'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';	
 import './MyTickets.scss'
+import userActions from '../../../redux/user/actions'
 
 function MyTickets(){
 
 	const { loading, loadingPart} = useSelector(state => state.users)
-	const { secondLoadMyTicket, error, errorAction } = useSelector(state => state.tickets)
+	const { idTerminer, secondLoadMyTicket, error, errorAction, successTerminer } = useSelector(state => state.tickets)
 	const {myTickets} = useSelector(state => state.tickets)
+
+	const [notes, setNotes] = useState("");
+	const [file, setFile] = useState({})
 
 	const [data, setData] = useState([])
 	const [ticket, setTicket] = useState({})
 	const [isDetailModalVisible, setIsDetailModalVisible] = useState(false)
-
+	const [isTerminerModalVisible, setIsTerminerModalVisible] = useState(false)
 	const dispatch = useDispatch()
 
 	useEffect(()=>{
@@ -103,7 +108,7 @@ function MyTickets(){
 				return (
 					<>
 						<Button className="marr5" onClick={() => showDetailModal(record.id)}>Détails</Button>
-						<Button className="" onClick={() => handleFinir(record.id)} >Terminer</Button>
+						<Button className="" onClick={() => showTerminerModal(record.id)} >Terminer</Button>
 					</>
 				)
 			}
@@ -155,12 +160,46 @@ function MyTickets(){
 		setIsDetailModalVisible(true);
 	};
 
+	const showTerminerModal = (id) => {
+		getDetailTicket(id)
+		setIsTerminerModalVisible(true);
+	};
+
 	const handleDetailOk = () => {
 		setIsDetailModalVisible(false)
 	};	
 
+	useEffect(() => {
+		if(successTerminer){
+			toast.success(`Ticket ${idTerminer} effectué !`)
+			dispatch(dispatchAction(ticketActions.SET_STATE, {successTerminer:false}))
+		}
+	},[successTerminer])	
+
+	const handleTerminerOk = () => {
+		if(!!notes && notes.length === 0){
+			toast.error("Veuillez entrer vos remarques")
+		}else if(!!file && Object.keys(file).length == 0){
+			toast.error("Veuillez entrer un fichier zip")
+		}else{
+			dispatch(dispatchAction(ticketActions.FINISH_TICKET,{id:ticket.id, file:file, notes:notes}))
+			setIsTerminerModalVisible(false)
+		}
+		
+	};	
+
+	const handleOnChange = (value,name) => {
+		// dispatch(dispatchAction(userActions.SET_STATE,{[name]:value}))
+		if(name=="notes"){
+			setNotes(value)
+		}else if(name == "file"){
+			setFile(value)
+		}
+	}
+
 	const handleCancel = () => {
 		setIsDetailModalVisible(false);
+		setIsTerminerModalVisible(false);
 	};
 
 	const onChange = (pagination, filters, sorter, extra) => {
@@ -179,7 +218,7 @@ function MyTickets(){
 			</div>
 
 			<Detail ticket={ticket} isDetailModalVisible={isDetailModalVisible} handleDetailOk={handleDetailOk} handleCancel={handleCancel} />
-			
+			<Terminer ticket={ticket} file={file} notes={notes} handleOnChange={handleOnChange} isTerminerModalVisible={isTerminerModalVisible} handleTerminerOk={handleTerminerOk} handleCancel={handleCancel} />
 			<Table columns={columns} 
 				dataSource={data} 
 				onChange={onChange} 

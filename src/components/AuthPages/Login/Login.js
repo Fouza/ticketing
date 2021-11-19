@@ -91,7 +91,8 @@ function Login(){
 					<Button type="primary" 
 						size="large" 
 						onClick={handleLogin} 
-						loading={loading && loadingPart=='login'}>Valider</Button>
+						loading={loading && loadingPart=='login'}
+						>Valider</Button>
 				</div>
 			</div>
 		</div>
