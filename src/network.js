@@ -1,2 +1,2 @@
-const API_URL = "http://ticketing.syartech.com";
+const API_URL = "https://ticketing.syartech.com";
 export {API_URL};
