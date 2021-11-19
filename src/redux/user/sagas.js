@@ -1,8 +1,6 @@
 import userActions from './actions';
 import {all, takeEvery,put,call, select, takeLatest} from "redux-saga/effects"
-import * as userService from "../../services/user.service"
 import {requestLoading, succes, failure} from '../../utils/general/dispatch.util';
-import sentence from '../../constants/constants';
 import {setCookie, createDate} from '../../utils/user.util';
 import {requestService} from "../../utils/general/request.util"
 import { API_URL } from "../../network";

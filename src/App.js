@@ -1,5 +1,4 @@
-import React, {useState, useEffect} from 'react';
-import {useDispatch} from "react-redux";
+import React from 'react';
 import Layout from './components/layout/Layout/Layout.js';
 
 

@@ -13,8 +13,7 @@ import userActions from '../../../redux/user/actions'
 
 function MyTickets(){
 
-	const { loading, loadingPart} = useSelector(state => state.users)
-	const { idTerminer, secondLoadMyTicket, error, errorAction, successTerminer } = useSelector(state => state.tickets)
+	const { secondLoadMyTicket, error, errorAction, successTerminer } = useSelector(state => state.tickets)
 	const {myTickets} = useSelector(state => state.tickets)
 
 	const [notes, setNotes] = useState("");

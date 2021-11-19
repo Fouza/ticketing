@@ -11,8 +11,6 @@ function Dashboard(){
 	const isLogged = JSON.parse(localStorage.getItem('isLogged'))
 	const user = JSON.parse(localStorage.getItem('user'))
 	const [isModalVisible, setIsModalVisible] = useState(false)
-	const [email, setEmail] = useState('')
-	const [password, setPassword] = useState('')
 
 
 	const newUserButton = () => {

@@ -4,16 +4,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { dispatchAction } from '../../../utils/general/dispatch.util'
 import ticketActions from '../../../redux/tickets/actions'
 import Detail from '../../../components/commun/Detail/Detail'
-import Terminer from '../../../components/commun/Terminer/Terminer'
 import { Table, Tag, Button } from 'antd'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';	
 import './Messages.scss'
-import userActions from '../../../redux/user/actions'
 
 function Messages(){
 
-	const { loading, loadingPart} = useSelector(state => state.users)
+	// const { loading, loadingPart} = useSelector(state => state.users)
 	const { secondLoadMessages, error, errorAction, messages } = useSelector(state => state.tickets)
 	
 	// const [notes, setNotes] = useState("");

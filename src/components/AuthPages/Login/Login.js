@@ -1,21 +1,18 @@
 import {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {useHistory} from 'react-router-dom';
 import './Login.scss';
 import { dispatchAction } from '../../../utils/general/dispatch.util';
 import userActions from '../../../redux/user/actions';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Input, Button } from 'antd';
 import 'antd/dist/antd.css'; 
-import { withRouter } from 'react-router-dom';
-import { setLocalStorage } from '../../../utils/general/auth.util';
+
 
 function Login(){
 
-	const { isLogged, error, loading, loadingPart} = useSelector(state => state.users)
+	const { error, loading, loadingPart} = useSelector(state => state.users)
 	// const [isLogged, setIsLogged] = useState(localStorage.getItem('isLogged'))
-	let history = useHistory()
 	const [email,setEmail] = useState("")
 	const [password, setPassword] = useState("")
 	const dispatch = useDispatch()

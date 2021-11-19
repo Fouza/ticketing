@@ -1,14 +1,10 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from "react-redux";
 import { dispatchAction } from '../../../utils/general/dispatch.util';
 import './Tickets.scss';
 import ticketActions from '../../../redux/tickets/actions';
-import {  Table, Input, Button, Space, Tag, Modal } from 'antd';
-import Highlighter from 'react-highlight-words';
-import {  SearchOutlined  } from '@ant-design/icons';
+import {  Table, Button, Tag } from 'antd';
 import Detail from '../../../components/commun/Detail/Detail';
-import get from 'lodash';
-import isEqual from 'lodash.isequal';
 import { toast } from 'react-toastify';
 
 
@@ -16,7 +12,7 @@ function Tickets(){
 	const user = JSON.parse(localStorage.getItem('user'))
 
 	const { loading, loadingPart} = useSelector(state => state.users)
-	const { successPris, secondLoad, error, errorAction, pageTickets } = useSelector(state => state.tickets)
+	const { successPris, secondLoad, error, errorAction } = useSelector(state => state.tickets)
 	const {tickets} = useSelector(state => state.tickets)
 
 	const [data, setData] = useState([])
